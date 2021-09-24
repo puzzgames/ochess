@@ -21,11 +21,14 @@ Tree::Tree(bool test):test(test) {
 
 void Tree::readCBC(string filename) {
     ifstream infile(filename);
+    if (infile.eof()) throw exception();
+    int lineCnt = 0;
     bool good;
     do {
         string line;
         good = getline(infile, line).good();
         if (!good && line == "") break;
+        lineCnt++;
         int pos = line.find('.');
         string numStr = line.substr(0,pos);
         int level = stoi(numStr);
@@ -46,6 +49,7 @@ void Tree::readCBC(string filename) {
         Move move(moveStr, &board);
         add(level,move, summary);
     } while (good);
+    if (lineCnt==0) throw exception();
     sort();
 }
 
