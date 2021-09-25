@@ -68,16 +68,17 @@ void Node::compareTo(Node *testNode) {
                 printf("turn bad\n");
                 exit(1);
             }
-            context->ply--;
-            children[i0]->move.takeBack(context->board);
             uint64_t sum1, sum2;
             sum1 = children[i0]->summary;
             sum2 = testNode->children[i1]->summary;
             if (sum1 != sum2) {
                 printf("summary mismatch %ld <-> %ld (%ld)\n", sum1, sum2, sum2 - sum1);
+                context->print();
                 context->board->printFen();
                 cout << endl;
             }
+            context->ply--;
+            children[i0]->move.takeBack(context->board);
             i0++;
             i1++;
         }
