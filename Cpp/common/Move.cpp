@@ -68,8 +68,9 @@ void Move::addOtherFlags(Board* board) {
         int delta = to-from;
         if (delta==32 || delta==-32)
             kind = MoveKind_doublePawnInit;
-        else if (from == board->enPassantPos)
-            kind = MoveKind_enPassant;
+        else
+            if (to == board->enPassantPos)
+                kind = MoveKind_enPassant;
     } else {
         int deltaCol = to - from;
         if (board->get(from).piece == PieceKind::KING && (deltaCol == -2 || deltaCol == 2))
@@ -77,61 +78,55 @@ void Move::addOtherFlags(Board* board) {
     }
 }
 
-void Move::addOtherFields(Board *board) {
-    PieceType cap = board->get(to).piece;
-    if (cap==PieceKind::EMPTY) {
-        if (kind == MoveKind_doublePawnInit) {
-            initEPPos = (from+to)/2;
-        }
-        else if (kind == MoveKind_enPassant) {
-            captureEPPos = board->enPassantPos;
-        }
-        else if (kind == MoveKind_castling) {
-            if (to=from-2) {
-                rookFrom = from-4;
-                rookTo = from-1;
-            }
-            else {
-                rookFrom = from+3;
-                rookTo = from+1;
-            }
-        }
-    }//only if captured, need care for union
-        else captured = cap;
-}
-
 void Move::makeMove(Board* board) {
     addOtherFlags(board);
-    addOtherFields(board);
+    captured = board->get(to).piece;
     board->moveSquare(from,to);
     board->castling &= ~justCastlingDisabled;
-    PosType previous = board->enPassantPos;
-    board->enPassantPos = 0; //default for non double pawn init
-    if (kind == MoveKind_doublePawnInit) { //very subtle exchange o takeback restore
-        board->enPassantPos = initEPPos;
-        initEPPos = previous; //previous to takeback
+    boardSavEP = board->enPassantPos;
+    if (kind == MoveKind_doublePawnInit) {
+        board->enPassantPos = (from+to)/2;
+    } else {
+        if (kind == MoveKind_enPassant) {
+            captured = PieceKind::PAWN;
+            bool colorEp = board->enPassantPos>=64;
+            int posCapturableEP = colorEp?board->enPassantPos-16:board->enPassantPos+16;
+            board->remove(posCapturableEP);
+        } else {
+            if (kind == MoveKind_castling) {
+                if (to=from-2) {
+                    rookFrom = from-4;
+                    rookTo = from-1;
+                }
+                else {
+                    rookFrom = from+3;
+                    rookTo = from+1;
+                }
+                board->moveSquare(rookFrom, rookTo);
+            }
+        }
+        board->enPassantPos = -1;
     }
-    else if (kind == MoveKind_enPassant)
-        board->remove(captureEPPos);
-    else if (kind == MoveKind_castling)
-        board->moveSquare(rookFrom,rookTo);
     board->turnColor = !board->turnColor;
 }
 
 void Move::takeBack(Board* board) {
     board->turnColor = !board->turnColor;
     PieceType cap;
-    if (kind==MoveKind_castling)
+    if (kind==MoveKind_castling) //only if due to union captured with rookFrom
         cap = PieceKind::EMPTY;
     else
         cap = captured;
     bool restoreColor = cap != PieceKind::EMPTY && !board->turnColor;
-    board->moveSquareWithRestore(to,from, cap, restoreColor);
-    if (kind == MoveKind_doublePawnInit)
-        board->enPassantPos = initEPPos;
-    else if (kind == MoveKind_enPassant)
-        board->set(captureEPPos, {PieceKind::PAWN, !board->turnColor});
-    else if (kind == MoveKind_castling)
+    if (kind == MoveKind_enPassant) {
+        bool colorEp = board->enPassantPos>=64;
+        int posCapturableEP = colorEp?board->enPassantPos-16:board->enPassantPos+16;
+        board->moveSquareWithRestore(posCapturableEP, from, cap, restoreColor);
+    }
+    else
+        board->moveSquareWithRestore(to,from, cap, restoreColor);
+    board->enPassantPos = boardSavEP;
+    if (kind == MoveKind_castling)
         board->moveSquare(rookTo,rookFrom);
     board->castling |= justCastlingDisabled;
 }

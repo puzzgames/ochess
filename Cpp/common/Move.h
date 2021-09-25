@@ -17,15 +17,10 @@ namespace ochess::common {
 
     struct Move {
         Move();
-
         bool operator<(const Move &rhs);
-
         bool operator>(const Move &rhs);
-
         Move(PosType from, PosType to, PieceType promoteTo = PieceKind::EMPTY);
-
         Move(std::string humanString, Board *board);
-
         std::string toHuman(Board *board);
 
         PosType from;
@@ -37,24 +32,17 @@ namespace ochess::common {
         };
         union {
             PieceType promoteTo;
-            PosType captureEPPos;
             PosType rookTo;
         };
-        PosType initEPPos;
+        PosType boardSavEP;
         FlagsType kind: 4;
         FlagsType justCastlingDisabled: 4;//just delete possiblities
         short scores;
 
         static bool move_sorter(Move const &lhs, Move const &rhs);
-
         void addOtherFlags(Board *board);
-
-        void addOtherFields(Board *board);
-
         void makeMove(Board *board);
-
         void takeBack(Board *board);
-
         std::string toDebug();
     };
 }
