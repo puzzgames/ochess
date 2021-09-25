@@ -8,17 +8,27 @@
 using namespace ochess::main;
 
 void Searcher::MiniMax(Dict *dict, int depth) {
-    if (depth == 0) {
+    /*if (depth == 0) {
         count++;
         partCounter++;
         return;
-    }
-    levsize[ply] = 0;
+    }*/
+    levsize[ply] = 0;;
     board->gen(dict, this);
+    if (depth>1)
     for (int i=0; i < levsize[ply]; i++) {
         MakeMove(i);
         MiniMax(dict, depth - 1);
         takeBack();
+    }
+    else {
+        for (int i=0; i < levsize[ply]; i++) {
+            MakeMove(i);
+            //MiniMax(dict, depth - 1);
+            count++;
+            partCounter++;
+            takeBack();
+        }
     }
 }
 
@@ -28,17 +38,17 @@ Searcher::Searcher(BoardGen *board):board(board) {
 FILE *myfile;
 void Searcher::MakeMove(int index) {
     Move move = level[index];
-    if (ply==partDepth-1) partCounter = 0;
+    /*if (ply==partDepth-1) partCounter = 0;
     if (ply<partDepth) {
         fprintf(myfile, "%d. %s", ply + 1, move.toHuman(board).c_str()); //fprintf is faster than ofstream for big files
         if (ply<partDepth-1)
             fprintf(myfile, "\n");
-    }
+    }*///todo
     move.makeMove(board);
     hist[ply] = move;
     ply++;
-    if (!levels[ply])
-        levels[ply] = new Move[MaxMoves];
+    /*if (!levels[ply])
+        levels[ply] = new Move[MaxMoves];*/
     level = levels[ply];
     /*board->turnColor = !board->turnColor;*/
 }
@@ -47,12 +57,12 @@ void Searcher::takeBack() {
     ply--;
     level = levels[ply];
     Move move = hist[ply];
-    if (ply==partDepth-1) {
+    /*if (ply==partDepth-1) {
         if (partDepth<fullDepth)
             fprintf(myfile, " =>%ld\n", partCounter);
         else
             fprintf(myfile, "\n");
-    }
+    }*///todo
     move.takeBack(board);
 }
 

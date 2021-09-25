@@ -21,7 +21,6 @@ Move::Move(std::string humanString, Board* board):Move()  {
     else kind = MoveKind_simple;
 }
 
-
 Move::Move(PosType from, PosType to, PieceType promoteTo):Move()  {
     this->from = from;
     this->to = to;

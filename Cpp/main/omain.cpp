@@ -24,7 +24,7 @@ int main() {
     fclose(myfile);
     ChronoType endTimer = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTimer - startTimer).count();
-    printf("duration=%ld count=%ld",duration,searcher->count);
+    printf("duration=%f ms count=%ld",(double)duration/1000,searcher->count);
     delete dict;
     delete searcher;
     delete board;

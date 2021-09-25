@@ -24,19 +24,12 @@ namespace ochess::main {
         long partCounter = 0;
 
         void addSimpleMove(PosType from, PosType to, PieceType captured, bool touchCastling) override;
-
         void addPromotionsMultiMove(PosType from, PosType to, PieceType captured) override;
-
         void addPromotionMove(PosType from, PosType to, PieceType captured, PieceType promoteTo);
-
         void addDoublePawnMove(PosType from, PosType to, PosType oneStepPos) override;
-
         void addEnPassantMove(PosType from, PosType to, PosType capturedPos) override;
-
         void addCastling(PosType from, PosType to, PosType rookFrom, PosType rookTo) override;
-
         void MakeMove(int index);
-
         void takeBack();
     };
 }

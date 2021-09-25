@@ -11,11 +11,11 @@ using namespace ochess::main;
 MoveList::MoveList() {
     using PMove = Move*;
     levels = new PMove[MaxLevels];
-    for (int i=1; i<MaxLevels; i++) {
-        levels[i] = nullptr;
+    for (int i=0; i<MaxLevels; i++) {
+        levels[i] = new Move[MaxMoves];
         levsize[i] = 0;
     }
-    levels[0] = new Move[MaxMoves];
+    //levels[0] = new Move[MaxMoves];
     level = levels[0];
 }
 
