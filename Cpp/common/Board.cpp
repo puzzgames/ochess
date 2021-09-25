@@ -31,7 +31,9 @@ bool Board::opposite(PosType pos, bool mycolor) {
     return (square.piece!=0) && (square.color != mycolor);
 }
 
-
+bool Board::oppositeOnBoard(PosType pos, bool mycolor) {
+    return onBoard(pos) && oppositeOnBoard(pos, mycolor);
+}
 
 bool Board::nonempty(PosType pos) {
     return squares[pos].piece!=0;
@@ -46,6 +48,10 @@ bool Board::empty(PosType pos, int num) {
         if (squares[i].piece!=0)
             return false;
     return true;
+}
+
+bool Board::emptyOnBoard(PosType pos) {
+    return onBoard(pos) && empty(pos);
 }
 
 //7 bit is used in 128 squares board, 6 in 64 squares binary board

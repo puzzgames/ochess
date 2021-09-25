@@ -32,9 +32,11 @@ namespace ochess::common {
         static bool onBoard(PosType pos);
         bool emptyOrOpposite(bool mycolor, PosType pos);
         bool opposite(PosType pos, bool mycolor);
+        bool oppositeOnBoard(PosType pos, bool mycolor);
         bool nonempty(PosType pos);
         bool empty(PosType pos);
         bool empty(PosType pos, int num);
+        bool emptyOnBoard(PosType pos);
         static bool onInitPawnLine(PosType pos, bool color);
         static bool onPromotionLine(PosType pos, bool color);
         PosType enPassantPos = 1;
