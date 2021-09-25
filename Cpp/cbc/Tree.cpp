@@ -53,7 +53,7 @@ void Tree::readCBC(string filename) {
             moveStr = line.substr(pos);
         }
         Move move(moveStr, context->board);
-        add(level,move, summary);
+        add(level,move,summary);
     } while (good);
     if (lineCnt==0) throw exception();
     sort();
@@ -83,4 +83,8 @@ void Tree::sort() {
 
 void Tree::compareTo(Tree *testTree) {
     root->compareTo(testTree->root);
+    if (context==nullptr)
+        throw new std::exception();
+    if (context->addCnt==0 && context->delCnt==0 && context->mismatchCnt==0)
+        printf("Congratulations! Files are identical.");
 }

@@ -17,7 +17,8 @@ namespace ochess::cbc {
         Move hist[MaxLevels];
         int ply = 0;
         void print();
-        int cnt = 0;
+        int addCnt=0,delCnt=0;
+        int mismatchCnt=0;
         Context(std::string fen);
         ~Context();
     };

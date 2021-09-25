@@ -37,12 +37,14 @@ void Node::compareTo(Node *testNode) {
     int i0 = 0, i1 = 0;
     while (i0 < children.size() && i1 < testNode->children.size()) {
         if (children[i0]->move < testNode->children[i1]->move) {
+            context->delCnt++;
             context->print();
-            cout << "deleted " << children[i0]->move.toHuman(context->board) << endl;;
-            cout << "jest  " << testNode->children[i1]->move.toHuman(context->board)
+            cout << "deleted " << children[i0]->move.toHuman(context->board) << endl;
+            cout << "is  " << testNode->children[i1]->move.toHuman(context->board)
                  << " = " << testNode->children[i1]->move.toDebug() << endl;;
             i0++;
         } else if (children[i0]->move > testNode->children[i1]->move) {
+            context->addCnt++;
             context->print();
             cout << "added " << testNode->children[i1]->move.toHuman(context->board) <<
                  " = " << testNode->children[i1]->move.toDebug()
@@ -51,27 +53,14 @@ void Node::compareTo(Node *testNode) {
             exit(0);
         } else {
             context->hist[context->ply] = children[i0]->move;
-            Move move = children[i0]->move;
-            if (context->ply == 4 && move.from == 16 && move.to == 48) {
-                context->cnt++;
-                if (context->cnt == 25540) {
-                    context->print();
-                    cout << "make move" << move.toDebug() << move.toHuman(context->board) << endl;
-                }
-            }
             children[i0]->move.makeMove(context->board);
-            //context->print();
             context->ply++;
-            bool savolor = context->board->turnColor;
             children[i0]->compareTo(testNode->children[i1]);
-            if (savolor != context->board->turnColor) {
-                printf("turn bad\n");
-                exit(1);
-            }
             uint64_t sum1, sum2;
             sum1 = children[i0]->summary;
             sum2 = testNode->children[i1]->summary;
             if (sum1 != sum2) {
+                context->mismatchCnt++;
                 printf("summary mismatch %ld <-> %ld (%ld)\n", sum1, sum2, sum2 - sum1);
                 context->print();
                 context->board->printFen();
@@ -84,11 +73,13 @@ void Node::compareTo(Node *testNode) {
         }
     }
     while (i0 < children.size()) {
+        context->delCnt++;
         context->print();
         cout << "deleted " << children[i0]->move.toHuman(context->board) << endl;
         i0++;
     }
     while (i1 < testNode->children.size()) {
+        context->addCnt++;
         context->print();
         cout << "added " << testNode->children[i1]->move.toHuman(context->board) << endl;;
         i1++;
