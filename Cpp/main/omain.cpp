@@ -11,6 +11,7 @@ int main() {
     Searcher searcher(&board);
     Dict dict(&board, &searcher);
     board.parseFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    //board.parseFen("rnbqkbnr/p1pppppp/8/8/8/8/1PPPPPPP/RNBQKBNR w ---- -");
     using ChronoType = std::chrono::time_point<std::chrono::high_resolution_clock>;
     ChronoType startTimer = std::chrono::high_resolution_clock::now();
     searcher.count = 0;

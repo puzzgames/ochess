@@ -10,7 +10,7 @@ using namespace ochess::main;
 void Searcher::MiniMax(Dict *dict, int depth) {
     if (depth == 0) {
         count++;
-        thrCounter++;
+        partCounter++;
         return;
     }
     levsize[ply] = 0;
@@ -28,7 +28,7 @@ Searcher::Searcher(BoardGen *board):board(board) {
 FILE *myfile;
 void Searcher::MakeMove(int index) {
     Move move = level[index];
-    if (ply==partDepth-1) thrCounter = 0;
+    if (ply==partDepth-1) partCounter = 0;
     if (ply<partDepth) {
         fprintf(myfile, "%d. %s", ply + 1, move.toHuman(board).c_str()); //fprintf is faster than ofstream for big files
         if (ply<partDepth-1)
@@ -50,7 +50,7 @@ void Searcher::takeBack() {
     Move move = hist[ply];
     if (ply==partDepth-1) {
         if (partDepth<fullDepth)
-            fprintf(myfile, " =>%ld\n",thrCounter);
+            fprintf(myfile, " =>%ld\n", partCounter);
         else
             fprintf(myfile, "\n");
     }

@@ -230,7 +230,7 @@ void Board::parseFen(std::string fen) {
                 c = fen[pos];
             }
             if (number < 1) throw std::exception();
-            add('.', number);
+            writePos = add('.', writePos, number);
         } else {
             if (isalpha(c)) writePos = add(c, writePos);
             else if (c == '/') writePos = newLine(writePos);

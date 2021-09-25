@@ -13,7 +13,7 @@ using namespace ochess::cbc;
 
 Tree::Tree(bool test):test(test) {
     //board.parseFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    board.parseFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w K--q e7 0 1");
+    board.parseFen("rnbqkbnr/p1pppppp/8/1p6/P7/8/1PPPPPPP/RNBQKBNR w KQkq -");
     context.board = &board;
     root = new Node(nullptr, &context);
     currentOwner = root;

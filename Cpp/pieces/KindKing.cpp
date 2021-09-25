@@ -12,9 +12,17 @@ void KindKing::genKindMoves(PosType pos, MoveList *moveList) {
     genMoves(pos, moveList, delta90degree, 4, false);
     genMoves(pos, moveList, delta45degree, 4, false);
     short castling = board->castling;
-    if (castling & (CASTLING_LONG_W|CASTLING_LONG_B))
+    bool enabledLong,enabledShort;
+    if (board->turnColor) {
+        enabledLong = (castling & CASTLING_LONG_B)!=0;
+        enabledShort = (castling & CASTLING_SHORT_B)!=0;
+    } else {
+        enabledLong = (castling & CASTLING_LONG_W)!=0;
+        enabledShort = (castling & CASTLING_SHORT_W)!=0;
+    }
+    if (enabledLong)
         genCastlinLong(pos, moveList);
-    if (castling & (CASTLING_SHORT_W|CASTLING_SHORT_B))
+    if (enabledShort)
         genCastlinShort(pos, moveList);
 }
 

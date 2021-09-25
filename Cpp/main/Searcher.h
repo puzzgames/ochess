@@ -10,8 +10,8 @@
 #include "Dict.h"
 
 namespace ochess::main {
-    static int fullDepth = 3;
     static int partDepth = 3;
+    static int fullDepth = 6;
 
     class Searcher : public MoveList {
         BoardGen *board;
@@ -21,7 +21,7 @@ namespace ochess::main {
         void MiniMax(Dict *dict, int depth);
 
         long count = 0;
-        long thrCounter = 0;
+        long partCounter = 0;
 
         void addSimpleMove(PosType from, PosType to, PieceType captured, bool touchCastling) override;
 
