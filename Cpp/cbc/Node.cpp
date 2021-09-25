@@ -50,7 +50,6 @@ void Node::compareTo(Node *testNode) {
                  " = " << testNode->children[i1]->move.toDebug()
                  << " hash= " << context->board->hash() << endl;;
             i1++;
-            exit(0);
         } else {
             context->hist[context->ply] = children[i0]->move;
             children[i0]->move.makeMove(context->board);
@@ -61,8 +60,8 @@ void Node::compareTo(Node *testNode) {
             sum2 = testNode->children[i1]->summary;
             if (sum1 != sum2) {
                 context->mismatchCnt++;
-                printf("summary mismatch %ld <-> %ld (%ld)\n", sum1, sum2, sum2 - sum1);
                 context->print();
+                printf("deep mismatch %ld <-> %ld (%ld)\n", sum1, sum2, sum2 - sum1);
                 context->board->printFen();
                 cout << endl;
             }

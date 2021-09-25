@@ -87,4 +87,7 @@ void Tree::compareTo(Tree *testTree) {
         throw new std::exception();
     if (context->addCnt==0 && context->delCnt==0 && context->mismatchCnt==0)
         printf("Congratulations! Files are identical.");
+    else
+        printf("SUMMARY:\nadded %d\ndeleted %d\nfeep mismatch %d\n",
+               context->addCnt, context->delCnt, context->mismatchCnt);
 }
