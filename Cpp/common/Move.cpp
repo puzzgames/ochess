@@ -14,7 +14,7 @@ Move::Move(std::string humanString, Board* board):Move()  {
     this->from = board->toPos(humanString[0], humanString[1]);
     this->to = board->toPos(humanString[3], humanString[4]);
     if (humanString.size()>5) {
-        char sym = humanString[4];
+        char sym = humanString[5];
         promoteTo = PieceKind::symToType(sym);
         kind = MoveKind_promote;
     }
