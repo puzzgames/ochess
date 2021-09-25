@@ -10,8 +10,8 @@
 #include "Dict.h"
 
 namespace ochess::main {
-    static int partDepth = 3;
-    static int fullDepth = 4;
+    static int partDepth = 2;
+    static int fullDepth = 5;
 
     class Searcher : public MoveList {
         BoardGen *board;

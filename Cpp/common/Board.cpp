@@ -139,6 +139,12 @@ void Board::moveSquareWithRestore(PosType to, PosType from, PieceType captured, 
     squares[to].color = color;
 }
 
+void Board::moveSquareWithRestoreEP(PosType to, PosType from, PosType capturedEP, PieceType captured, bool color) {
+    squares[from] = squares[to];
+    squares[to] = {0,0};
+    squares[capturedEP] = {captured, color};
+}
+
 void Board::remove(PosType pos) {
     squares[pos] = {0,0};
 }

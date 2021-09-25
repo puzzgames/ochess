@@ -48,6 +48,7 @@ namespace ochess::common {
         char getSymAt(PosType pos);
         void moveSquare(PosType from, PosType to);
         void moveSquareWithRestore(PosType to, PosType from, PieceType captured, bool color);
+        void moveSquareWithRestoreEP(PosType to, PosType from, PosType capturedEP, PieceType captured, bool color);
         void remove(PosType pos);
         void promote(PosType pos, PieceType promoteTo);
         SquareType get(PosType pos);

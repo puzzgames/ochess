@@ -118,14 +118,14 @@ void Move::takeBack(Board* board) {
     else
         cap = captured;
     bool restoreColor = cap != PieceKind::EMPTY && !board->turnColor;
+    board->enPassantPos = boardSavEP;
     if (kind == MoveKind_enPassant) {
         bool colorEp = board->enPassantPos>=64;
         int posCapturableEP = colorEp?board->enPassantPos-16:board->enPassantPos+16;
-        board->moveSquareWithRestore(posCapturableEP, from, cap, restoreColor);
+        board->moveSquareWithRestoreEP(to, from, posCapturableEP, cap, restoreColor);
     }
     else
         board->moveSquareWithRestore(to,from, cap, restoreColor);
-    board->enPassantPos = boardSavEP;
     if (kind == MoveKind_castling)
         board->moveSquare(rookTo,rookFrom);
     board->castling |= justCastlingDisabled;

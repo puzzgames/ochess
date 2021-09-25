@@ -44,7 +44,6 @@ void Searcher::MakeMove(int index) {
 }
 
 void Searcher::takeBack() {
-    //board->turnColor = !board->turnColor;
     ply--;
     level = levels[ply];
     Move move = hist[ply];
