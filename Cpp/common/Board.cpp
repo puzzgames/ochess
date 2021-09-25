@@ -4,6 +4,7 @@
 #include <cstring>
 #include <iostream>
 #include <sstream>
+#include <cassert>
 #include "Board.h"
 #include "xxHash.h"
 
@@ -233,7 +234,6 @@ void Board::printFen() {
     std::cout << getFen() << std::endl;
 }
 
-
 void Board::parseFen(std::string fen) {
     PosType writePos;
     writePos = 7 * 16;
@@ -267,15 +267,27 @@ void Board::parseFen(std::string fen) {
         throw std::exception();
     pos+=2;
     castling = 0;
-    if (fen[pos] == 'K')
-        castling |= CASTLING_SHORT_W;
-    if (fen[pos+1] == 'Q')
-        castling |= CASTLING_LONG_W;
-    if (fen[pos+2] == 'k')
-        castling |= CASTLING_SHORT_B;
-    if (fen[pos+3] == 'q')
-        castling |= CASTLING_LONG_B;
-    pos += 5;
+    enPassantPos = -1;
+    while (pos<fen.size() && fen[pos]!=' ') {
+        switch (fen[pos]) {
+            case 'K':
+                castling |= CASTLING_SHORT_W;
+                break;
+            case 'Q':
+                castling |= CASTLING_LONG_W;
+                break;
+            case 'k':
+                castling |= CASTLING_SHORT_B;
+                break;
+            case 'q':
+                castling |= CASTLING_LONG_B;
+                break;
+        }
+        pos++;
+    }
+    if (pos>=fen.size()) return;
+    assert(fen[pos]==' ');
+    pos++;
     if (fen[pos]=='-')
         enPassantPos = -1;
     else {
