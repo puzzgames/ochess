@@ -32,7 +32,7 @@ bool Board::opposite(PosType pos, bool mycolor) {
 }
 
 bool Board::oppositeOnBoard(PosType pos, bool mycolor) {
-    return onBoard(pos) && oppositeOnBoard(pos, mycolor);
+    return onBoard(pos) && opposite(pos, mycolor);
 }
 
 bool Board::nonempty(PosType pos) {

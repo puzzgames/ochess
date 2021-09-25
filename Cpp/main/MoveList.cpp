@@ -22,6 +22,6 @@ MoveList::MoveList() {
 MoveList::~MoveList() {
     for (int i=0; i<MaxLevels; i++)
         delete[] levels[i];
-    delete levels;
+    delete[] levels;
 }
 
