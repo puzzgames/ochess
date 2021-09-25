@@ -20,7 +20,7 @@ Node *Node::lastChild() {
     return children[children.size() - 1];
 }
 
-void Node::addChildren(Move move, int64_t summary) {
+void Node::addChild(Move move, int64_t summary) {
     Node *child = new Node(this, context);
     child->move = move;
     child->summary = summary;

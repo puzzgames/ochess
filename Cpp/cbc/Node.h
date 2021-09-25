@@ -17,15 +17,11 @@ namespace ochess::cbc {
         int64_t summary = -1;
 
         Node *lastChild();
-
-        void addChildren(Move move, int64_t summary);
-
+        void addChild(Move move, int64_t summary);
         void sortChildren();
-
         static bool node_sorter(Node const *lhs, Node const *rhs) {
             return Move::move_sorter(lhs->move, rhs->move);
         }
-
         void compareTo(Node *testNode);
 
     private:

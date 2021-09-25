@@ -14,19 +14,17 @@ namespace ochess::cbc {
         bool test = false;
         Node *root, *currentOwner;
         int currentLevel = 1;
-        Context context;
-        Board board;
+        Context *context = nullptr;
     public:
         explicit Tree(bool test);
-
         ~Tree();
-
         void sort();
-
         void readCBC(std::string filename);
-
         void add(int level, Move move, int64_t summary);
-
         void compareTo(Tree *testTree);
+
+        std::string fen;
+        int partDepth;
+        int fullDepth;
     };
 }

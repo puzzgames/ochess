@@ -22,72 +22,40 @@ namespace ochess::common {
         SquareType squares[128];
     public:
         Board();
-
         ~Board();
-
         bool turnColor = false;
-
         static PosType bits6to7(PosType pos);
-
         static PosType bits7to6(PosType pos);
-
         static PosType getLine(PosType pos);
-
         static PosType startLine(PosType pos);
-
         static PosType getColumn(PosType pos);
-
         static bool onBoard(PosType pos);
-
         bool emptyOrOpposite(bool mycolor, PosType pos);
-
         bool opposite(PosType pos, bool mycolor);
-
         bool nonempty(PosType pos);
-
         bool empty(PosType pos);
-
         bool empty(PosType pos, int num);
-
         static bool onInitPawnLine(PosType pos, bool color);
-
         static bool onPromotionLine(PosType pos, bool color);
-
-        PosType enPassantPos = 0;
+        PosType enPassantPos = 1;
         uint8_t castling = 15;
-
         void clearSquares();
-
         PosType add(char sym, PosType pos);
-
         PosType add(char sym, PosType pos, int count);
-
         PosType newLine(PosType pos);
-
         char getSymAt(PosType pos);
-
         void moveSquare(PosType from, PosType to);
-
         void moveSquareWithRestore(PosType to, PosType from, PieceType captured, bool color);
-
         void remove(PosType pos);
-
         void promote(PosType pos, PieceType promoteTo);
-
         SquareType get(PosType pos);
-
         void set(int pos, SquareType square);
-
         void print();
-
+        std::string getFen();
         void printFen();
-
         void parseFen(std::string fen);
-
         static PosType toPos(char col, char row);
-
         static std::string fromPos(PosType pos);
-
         uint32_t hash(bool alsoFlags = true);
     };
 }

@@ -12,15 +12,14 @@ using namespace ochess::common;
 
 namespace ochess::cbc {
     const int MaxLevels = 40;
-
     struct Context {
-        Board *board;
+        Board *board = nullptr;
         Move hist[MaxLevels];
         int ply = 0;
-
         void print();
-
         int cnt = 0;
+        Context(std::string fen);
+        ~Context();
     };
 }
 

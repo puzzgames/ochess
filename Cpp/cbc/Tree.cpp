@@ -12,20 +12,26 @@ using namespace ochess::common;
 using namespace ochess::cbc;
 
 Tree::Tree(bool test):test(test) {
-    board.parseFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    //board.parseFen("rnbqkbnr/p1pppppp/8/1p6/P7/8/1PPPPPPP/RNBQKBNR w KQkq -");
-    context.board = &board;
-    root = new Node(nullptr, &context);
-    currentOwner = root;
 }
 
 void Tree::readCBC(string filename) {
     ifstream infile(filename);
     if (infile.eof()) throw exception();
     int lineCnt = 0;
+    string line;
     bool good;
+    good = getline(infile, line).good();
+    if (!good) throw exception();
+    int pos = line.find('/');
+    if (pos==string::npos) throw exception();
+    partDepth = stoi(line.substr(0,pos));
+    fullDepth = stoi(line.substr(pos+1));
+    good = getline(infile, fen).good();
+    context = new Context(fen);
+    if (!good) throw exception();
+    root = new Node(nullptr, context);
+    currentOwner = root;
     do {
-        string line;
         good = getline(infile, line).good();
         if (!good && line == "") break;
         lineCnt++;
@@ -46,7 +52,7 @@ void Tree::readCBC(string filename) {
         } else {
             moveStr = line.substr(pos);
         }
-        Move move(moveStr, &board);
+        Move move(moveStr, context->board);
         add(level,move, summary);
     } while (good);
     if (lineCnt==0) throw exception();
@@ -55,6 +61,7 @@ void Tree::readCBC(string filename) {
 
 Tree::~Tree() {
     delete root;
+    delete context;
 }
 
 void Tree::add(int level, Move move, int64_t summary) {
@@ -67,7 +74,7 @@ void Tree::add(int level, Move move, int64_t summary) {
             currentOwner = currentOwner->parent;
     }
     currentLevel = level;
-    currentOwner->addChildren(move, summary);
+    currentOwner->addChild(move, summary);
 }
 
 void Tree::sort() {

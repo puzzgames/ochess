@@ -15,3 +15,13 @@ void Context::print() {
     }
     std::cout << std::endl;
 }
+
+
+Context::Context(std::string fen) {
+    board = new Board();
+    board->parseFen(fen);
+}
+
+Context::~Context() {
+    delete board;
+}

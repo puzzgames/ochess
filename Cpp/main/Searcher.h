@@ -11,7 +11,7 @@
 
 namespace ochess::main {
     static int partDepth = 3;
-    static int fullDepth = 6;
+    static int fullDepth = 3;
 
     class Searcher : public MoveList {
         BoardGen *board;

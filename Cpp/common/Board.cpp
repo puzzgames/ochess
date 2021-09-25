@@ -3,6 +3,7 @@
 //
 #include <cstring>
 #include <iostream>
+#include <sstream>
 #include "Board.h"
 #include "xxHash.h"
 
@@ -162,11 +163,12 @@ void Board::print() {
     std::cout << std::endl;
 }
 
-void Board::printFen() {
+std::string Board::getFen() {
+    std::stringstream ss;
     for (int row=7; row>=0; row--) {
         int start = row * 16;
         if (row!=7)
-            std::cout << "/";
+            ss << "/";
         int emptyLen = 0;
         for (int j=0; j<8; j++) {
             char sym  = getSymAt(PosType(start+j));
@@ -174,45 +176,49 @@ void Board::printFen() {
                 emptyLen++;
             else {
                 if (emptyLen>0) {
-                    std::cout << emptyLen;
+                    ss << emptyLen;
                     emptyLen = 0;
                 }
-                std::cout << sym;
+                ss << sym;
             }
         }
         if (emptyLen>0) {
-            std::cout << emptyLen;
+            ss << emptyLen;
         }
     }
-    std::cout << ' ';
+    ss << ' ';
     if (turnColor)
-        std::cout << 'b';
+        ss << 'b';
     else
-        std::cout << 'w';
-    std::cout << ' ';
+        ss << 'w';
+    ss << ' ';
     if (castling & CASTLING_SHORT_W)
-        std::cout << 'K';
+        ss << 'K';
     else
-        std::cout << '-';
+        ss << '-';
     if (castling & CASTLING_LONG_W)
-        std::cout << 'Q';
+        ss << 'Q';
     else
-        std::cout << '-';
+        ss << '-';
     if (castling & CASTLING_SHORT_B)
-        std::cout << 'k';
+        ss << 'k';
     else
-        std::cout << '-';
+        ss << '-';
     if (castling & CASTLING_LONG_B)
-        std::cout << 'q';
+        ss << 'q';
     else
-        std::cout << '-';
+        ss << '-';
 
-    std::cout << ' ';
-    if (enPassantPos<=0)
-        std::cout << '-';
+    ss << ' ';
+    if (enPassantPos<0)
+        ss << '-';
     else
-        std::cout << fromPos(enPassantPos);
-    std::cout << std::endl;
+        ss << fromPos(enPassantPos);
+    return ss.str();
+}
+
+void Board::printFen() {
+    std::cout << getFen() << std::endl;
 }
 
 
@@ -259,7 +265,7 @@ void Board::parseFen(std::string fen) {
         castling |= CASTLING_LONG_B;
     pos += 5;
     if (fen[pos]=='-')
-        enPassantPos = 0;
+        enPassantPos = -1;
     else {
         enPassantPos = toPos(fen[pos], fen[pos+1]);
     }
@@ -287,3 +293,4 @@ uint32_t Board::hash(bool alsoFlags) {
     }
     return hash;
 }
+
