@@ -2,9 +2,8 @@
 // Created by andrzej on 9/18/21.
 //
 
-#ifndef BITSZACHY_KINDBISHOP_H
-#define BITSZACHY_KINDBISHOP_H
-
+#ifndef BITSZACHY_KINDKNIGHT_H
+#define BITSZACHY_KINDKNIGHT_H
 
 #include "../common/PieceKind.h"
 #include "../main/PieceGen.h"
@@ -12,14 +11,14 @@
 using namespace ochess::main;
 
 namespace ochess::pieces {
-    class KindBishop : public PieceGen {
+    class Knight : public PieceGen {
         void genKindMoves(PosType pos, MoveList *moveList) override;
 
     public:
-        KindBishop(Board *board, MoveList *moveList, bool color);
+        Knight(Board *board, MoveList *moveList, bool color);
 
-        ~KindBishop() override = default;
+        ~Knight() override = default;
     };
 }
 
-#endif //BITSZACHY_KINDBISHOP_H
+#endif //BITSZACHY_KINDKNIGHT_H

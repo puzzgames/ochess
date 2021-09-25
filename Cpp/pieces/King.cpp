@@ -2,13 +2,13 @@
 // Created by andrzej on 9/18/21.
 //
 
-#include "KindKing.h"
+#include "King.h"
 #include "../common/SpecialSquares.h"
 
 using namespace ochess::main;
 using namespace ochess::pieces;
 
-void KindKing::genKindMoves(PosType pos, MoveList *moveList) {
+void King::genKindMoves(PosType pos, MoveList *moveList) {
     genMoves(pos, moveList, delta90degree, 4, false);
     genMoves(pos, moveList, delta45degree, 4, false);
     short castling = board->castling;
@@ -26,14 +26,14 @@ void KindKing::genKindMoves(PosType pos, MoveList *moveList) {
         genCastlinShort(pos, moveList);
 }
 
-KindKing::KindKing(Board *board, MoveList *moveList, bool color) : PieceGen(board, color) {
+King::King(Board *board, MoveList *moveList, bool color) : PieceGen(board, color) {
     pieceMask |= BITMASK_45 | BITMASK_90;
     pieceType = KING;
     pieceSym = "Kk";
     castlingTouch = true;
 }
 
-void KindKing::genCastlinLong(PosType pos, MoveList *moveList) {
+void King::genCastlinLong(PosType pos, MoveList *moveList) {
     if(color) {
         SquareType sqA8 = board->get(A8);
         if (sqA8.color && sqA8.piece == ROOK && board->empty(PosType(B8), 3))
@@ -46,7 +46,7 @@ void KindKing::genCastlinLong(PosType pos, MoveList *moveList) {
     }
 }
 
-void KindKing::genCastlinShort(PosType pos, MoveList *moveList) {
+void King::genCastlinShort(PosType pos, MoveList *moveList) {
     if(color) {
         SquareType sqH8 = board->get(H8);
         if (sqH8.color && sqH8.piece == ROOK && board->empty(PosType(F8),2))

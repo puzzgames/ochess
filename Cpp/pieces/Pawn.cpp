@@ -2,12 +2,12 @@
 // Created by andrzej on 9/18/21.
 //
 
-#include "KindPawn.h"
+#include "Pawn.h"
 
 using namespace ochess::main;
 using namespace ochess::pieces;
 
-void KindPawn::genKindMoves(PosType pos, MoveList *moveList) {
+void Pawn::genKindMoves(PosType pos, MoveList *moveList) {
     if (color) {
         if (Board::onInitPawnLine(pos, color)) {
             if (board->empty(pos-16)) {
@@ -70,7 +70,7 @@ void KindPawn::genKindMoves(PosType pos, MoveList *moveList) {
     }
 }
 
-KindPawn::KindPawn(Board *board, MoveList *moveList, bool color): PieceGen(board, color) {
+Pawn::Pawn(Board *board, MoveList *moveList, bool color): PieceGen(board, color) {
     pieceMask |= BITMASK_PAWN;
     pieceType = PAWN;
     pieceSym = "Pp";

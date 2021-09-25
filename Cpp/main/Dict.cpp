@@ -3,12 +3,12 @@
 //
 
 #include "Dict.h"
-#include "../pieces/KindPawn.h"
-#include "../pieces/KindKnight.h"
-#include "../pieces/KindBishop.h"
-#include "../pieces/KindRook.h"
-#include "../pieces/KindQueen.h"
-#include "../pieces/KindKing.h"
+#include "../pieces/Pawn.h"
+#include "../pieces/Knight.h"
+#include "../pieces/Bishop.h"
+#include "../pieces/Rook.h"
+#include "../pieces/Queen.h"
+#include "../pieces/King.h"
 
 using namespace ochess::main;
 using namespace ochess::pieces;
@@ -17,12 +17,12 @@ Dict::Dict(Board *board, MoveList *movelist) {
     for (int i=0; i<2; i++) {
         bool color = (bool)i;
         dict[i][0] = nullptr;
-        dict[i][1] = new KindPawn(board, movelist, color);
-        dict[i][2] = new KindKnight(board, movelist, color);
-        dict[i][3] = new KindBishop(board, movelist, color);
-        dict[i][4] = new KindRook(board, movelist, color);
-        dict[i][5] = new KindQueen(board, movelist, color);
-        dict[i][6] = new KindKing(board, movelist, color);}
+        dict[i][1] = new Pawn(board, movelist, color);
+        dict[i][2] = new Knight(board, movelist, color);
+        dict[i][3] = new Bishop(board, movelist, color);
+        dict[i][4] = new Rook(board, movelist, color);
+        dict[i][5] = new Queen(board, movelist, color);
+        dict[i][6] = new King(board, movelist, color);}
 }
 
 Dict::~Dict() {

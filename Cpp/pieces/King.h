@@ -11,7 +11,7 @@
 using namespace ochess::main;
 
 namespace ochess::pieces {
-    class KindKing : public PieceGen {
+    class King : public PieceGen {
         void genKindMoves(PosType pos, MoveList *moveList) override;
 
         void genCastlinLong(PosType pos, MoveList *moveList);
@@ -19,9 +19,9 @@ namespace ochess::pieces {
         void genCastlinShort(PosType pos, MoveList *moveList);
 
     public:
-        KindKing(Board *board, MoveList *moveList, bool color);
+        King(Board *board, MoveList *moveList, bool color);
 
-        ~KindKing() override = default;
+        ~King() override = default;
     };
 }
 

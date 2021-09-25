@@ -11,13 +11,13 @@
 using namespace ochess::main;
 
 namespace ochess::pieces {
-    class KindRook : public PieceGen {
+    class Rook : public PieceGen {
         void genKindMoves(PosType pos, MoveList *moveList) override;
 
     public:
-        KindRook(Board *board, MoveList *moveList, bool color);
+        Rook(Board *board, MoveList *moveList, bool color);
 
-        ~KindRook() override = default;
+        ~Rook() override = default;
     };
 }
 
