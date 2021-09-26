@@ -14,5 +14,5 @@ add_executable(ochess main/omain.cpp common/PieceKind.cpp common/PieceKind.h
         common/Move.cpp common/xxHash.cpp common/xxHash.h)
 
 add_executable(cbc cbc/cbcmain.cpp cbc/Node.cpp cbc/Node.h cbc/Tree.cpp cbc/Tree.h common/PieceKind.cpp
-        common/Move.cpp common/Board.cpp cbc/Context.cpp cbc/Context.h common/xxHash.cpp)
+        common/Move.cpp common/Board.cpp cbc/Context.cpp cbc/Context.h common/xxHash.cpp bit/Radius.cpp bit/Radius.h)
 

@@ -19,15 +19,8 @@ namespace ochess::main {
         bool castlingTouch = false;
     public:
         PieceGen(Board *board, bool color);
-
         ~PieceGen() override = default;
-
         virtual void genKindMoves(PosType pos, MoveList *moveList) = 0;
-
-        //can be one king, 8 pawns, but for example 10 knigts if all pawns promoted to knight
-        //PosType pos[MaxPos]; to do dict
-        //PieceKind(Board &board, bool turnColor);
-        void genAttacks(PosType pos, int deltas[], int deltaCount, bool canFar);
     };
 }
 

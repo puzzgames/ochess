@@ -63,11 +63,8 @@ const FlagsType Moveflag_castling = 8;
         BitType pieceMask;
         PieceType pieceType;
         std::string pieceSym;
-
         static SquareType symToSquare(char sym);
-
         static PieceType symToType(char sym);
-
         virtual ~PieceKind() = default;
     };
 }
