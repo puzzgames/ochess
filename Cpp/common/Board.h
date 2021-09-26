@@ -23,6 +23,8 @@ namespace ochess::common {
     public:
         Board();
         ~Board();
+        void toBoard64(SquareType squares64[]);
+        void fromBoard64(const SquareType squares64[]);
         bool turnColor = false;
         static PosType bits6to7(PosType pos);
         static PosType bits7to6(PosType pos);

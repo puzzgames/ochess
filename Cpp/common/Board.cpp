@@ -318,3 +318,21 @@ uint32_t Board::hash(bool alsoFlags) {
     return hash;
 }
 
+void Board::fromBoard64(const SquareType *squares64) {
+    for (int row=0; row<8; row++) {
+        int start64 = 8*row;
+        int start128 = 16*row;
+        for (int j=0; j<8; j++)
+            squares[start128+j] = squares64[start64+j];
+    }
+}
+
+void Board::toBoard64(SquareType *squares64) {
+    for (int row=0; row<8; row++) {
+        int start64 = 8*row;
+        int start128 = 16*row;
+        for (int j=0; j<8; j++)
+            squares64[start64+j] = squares[start128+j];
+    }
+}
+
