@@ -19,7 +19,7 @@ namespace ochess::common {
 
     class Board {
     protected:
-        SquareType squares[128];
+        SquareType squares128[128];
     public:
         Board();
         ~Board();

@@ -14,7 +14,7 @@ void BoardGen::gen(Dict *dict, MoveList* moveList) {;
         else
             start=row*16;
         for (int j=0; j<8; j++) {
-            SquareType square = squares[start+j];
+            SquareType square = squares128[start + j];
             PieceGen* pgen = (PieceGen*)(dict->get(square.color,square.piece));
             if (pgen!=nullptr && pgen->color==turnColor)
                 pgen->genKindMoves(start+j, moveList);

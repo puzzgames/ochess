@@ -23,12 +23,12 @@ bool Board::onBoard(PosType pos) {
 }
 
 bool Board::emptyOrOpposite(bool mycolor, PosType pos) {
-    SquareType square = squares[pos];
+    SquareType square = squares128[pos];
     return (square.piece==0) || (square.color != mycolor);
 }
 
 bool Board::opposite(PosType pos, bool mycolor) {
-    SquareType square = squares[pos];
+    SquareType square = squares128[pos];
     return (square.piece!=0) && (square.color != mycolor);
 }
 
@@ -37,16 +37,16 @@ bool Board::oppositeOnBoard(PosType pos, bool mycolor) {
 }
 
 bool Board::nonempty(PosType pos) {
-    return squares[pos].piece!=0;
+    return squares128[pos].piece != 0;
 }
 
 bool Board::empty(PosType pos) {
-    return squares[pos].piece==0;
+    return squares128[pos].piece == 0;
 }
 
 bool Board::empty(PosType pos, int num) {
     for (int i=pos; i<pos+num; i++)
-        if (squares[i].piece!=0)
+        if (squares128[i].piece != 0)
             return false;
     return true;
 }
@@ -55,7 +55,7 @@ bool Board::emptyOnBoard(PosType pos) {
     return onBoard(pos) && empty(pos);
 }
 
-//7 bit is used in 128 squares board, 6 in 64 squares binary board
+//7 bit is used in 128 squares128 board, 6 in 64 squares128 binary board
 /*
 bits7to6 changes 0abc0def to 00abcded
 first divide to two parts: lower with mask 00000111 upper with maska 00000111
@@ -99,11 +99,11 @@ bool Board::onPromotionLine(PosType pos, bool color) {
 }
 
 void Board::clearSquares() {
-    memset(squares,0, sizeof(squares));
+    memset(squares128, 0, sizeof(squares128));
 }
 
 PosType Board::add(char sym, PosType pos) {
-    squares[pos] = PieceKind::symToSquare(sym);
+    squares128[pos] = PieceKind::symToSquare(sym);
     pos++;
     return pos;
 }
@@ -111,7 +111,7 @@ PosType Board::add(char sym, PosType pos) {
 PosType Board::add(char sym, PosType pos, int count) {
     SquareType square = PieceKind::symToSquare(sym);
     for (int i=0; i<count; i++) {
-        squares[pos] = square;
+        squares128[pos] = square;
         pos++;
     }
     return pos;
@@ -124,42 +124,42 @@ PosType Board::newLine(PosType pos) {
 }
 
 char Board::getSymAt(PosType pos) {
-    SquareType square = squares[pos];
+    SquareType square = squares128[pos];
     return PieceKind::getSym(square.piece, square.color);
 }
 
 void Board::moveSquare(PosType from, PosType to) {
-    squares[to] = squares[from];
-    squares[from] = {0,0};
+    squares128[to] = squares128[from];
+    squares128[from] = {0, 0};
 }
 
 //reverse from and to, this is for takeback
 void Board::moveSquareWithRestore(PosType to, PosType from, PieceType captured, bool color) {
-    squares[from] = squares[to];
-    squares[to].piece = captured;
-    squares[to].color = color;
+    squares128[from] = squares128[to];
+    squares128[to].piece = captured;
+    squares128[to].color = color;
 }
 
 void Board::moveSquareWithRestoreEP(PosType to, PosType from, PosType capturedEP, PieceType captured, bool color) {
-    squares[from] = squares[to];
-    squares[to] = {0,0};
-    squares[capturedEP] = {captured, color};
+    squares128[from] = squares128[to];
+    squares128[to] = {0, 0};
+    squares128[capturedEP] = {captured, color};
 }
 
 void Board::remove(PosType pos) {
-    squares[pos] = {0,0};
+    squares128[pos] = {0, 0};
 }
 
 void Board::promote(PosType pos, PieceType promoteTo) {
-    squares[pos].piece = promoteTo;
+    squares128[pos].piece = promoteTo;
 }
 
 SquareType Board::get(PosType pos) {
-    return squares[pos];
+    return squares128[pos];
 }
 
 void Board::set(int pos, SquareType square) {
-    squares[pos] = square;
+    squares128[pos] = square;
 }
 
 void Board::print() {
@@ -309,7 +309,7 @@ std::string Board::fromPos(PosType pos) {
 }
 
 uint32_t Board::hash(bool alsoFlags) {
-    uint32_t hash = XXH32(squares, sizeof(squares), 0);
+    uint32_t hash = XXH32(squares128, sizeof(squares128), 0);
     if (alsoFlags) {
         hash = XXH32(&castling, sizeof(castling), hash);
         hash = XXH32(&enPassantPos, sizeof(enPassantPos), hash);
@@ -323,7 +323,7 @@ void Board::fromBoard64(const SquareType *squares64) {
         int start64 = 8*row;
         int start128 = 16*row;
         for (int j=0; j<8; j++)
-            squares[start128+j] = squares64[start64+j];
+            squares128[start128 + j] = squares64[start64 + j];
     }
 }
 
@@ -332,7 +332,7 @@ void Board::toBoard64(SquareType *squares64) {
         int start64 = 8*row;
         int start128 = 16*row;
         for (int j=0; j<8; j++)
-            squares64[start64+j] = squares[start128+j];
+            squares64[start64+j] = squares128[start128 + j];
     }
 }
 
