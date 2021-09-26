@@ -22,13 +22,9 @@ void Searcher::MiniMax(Dict *dict, int depth) {
         takeBack();
     }
     else {
-        for (int i=0; i < levsize[ply]; i++) {
-            MakeMove(i);
-            //MiniMax(dict, depth - 1);
-            count++;
-            partCounter++;
-            takeBack();
-        }
+        int delta = levsize[ply];
+        count+=delta;
+        partCounter+=delta;
     }
 }
 
